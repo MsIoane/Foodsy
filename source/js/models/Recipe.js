@@ -33,6 +33,7 @@ export default class Recipe {
         const newIngredients = this.ingredients.map(el =>{
             const unitsLong = ['tablespoons','tablespoon','ounces','ounce','teaspoon','cups'];
             const unitsShort = ['tbsp','tbsp','oz','oz','tsp','cup'];
+            const units = [...unitsShort,'kg','g','pound']
         
             // 1. uniform unit
             let ingredient = el.toLowerCase();
@@ -45,16 +46,29 @@ export default class Recipe {
 
             // 3. parse ingredients into count,unit and ingredient 
             const arrIng = ingredient.split(' ');
-            const unitIndex = arrIng.findIndex(el2 => unitsShort.includes(el2));
+            const unitIndex = arrIng.findIndex(el2 => units.includes(el2));
 
             let objIng;
 
             if(unitIndex > -1){
                 //unit exist 
-                objIng = {
+                
+                const arrCount = arrIng.slice(0,unitIndex);
 
+                let count;
+                if(arrCount.length === 1){
+                    count = eval(arrIng[0]);
+                }else{
+                    count = eval(arrCount.join('+'));
+                }
+
+                objIng = {
+                    count,
+                    unit: arrIng[unitIndex],
+                    ingredient: arrIng.slice(unitIndex + 1).join(' ')
                 }
             }else if(parseInt(arrIng[0],10)){
+                // there is No unit but Number is
                 objIng = {
                     count: parseInt(arrIng[0],10),
                     unit: '',

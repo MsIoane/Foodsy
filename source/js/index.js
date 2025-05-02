@@ -2,7 +2,7 @@ import Search from "./models/Search"
 import Recipe from "./models/Recipe"
 import { elements,renderLoader,clearLoader } from "./views/base"
 import * as searchView from "./views/searchViews"
-
+import * as recipeView from "./views/recipeView"
 const state = {}
 
 /*
@@ -67,12 +67,12 @@ const controlRecipe = async () => {
         try {
             //get recipe data 
             await state.recipe.getRecipe();
-            window.recipe = state.recipe
+            state.recipe.parseIngredients();
             //calculate servings and time 
             state.recipe.calcTime();
             state.recipe.calcServings();
             //render recipe 
-            console.log(state.recipe)  
+            recipeView.renderRecipe(state.recipe); 
         } catch (error) {
             alert('Error recipe')  
         }
