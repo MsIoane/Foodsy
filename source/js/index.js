@@ -3,8 +3,10 @@ import Recipe from "./models/Recipe"
 import { elements,renderLoader,clearLoader } from "./views/base"
 import * as searchView from "./views/searchViews"
 import * as recipeView from "./views/recipeView"
+import * as listView from './views/listView'
+import List from "./models/List" 
 const state = {}
-
+window.state = state
 /*
 Search Controller 
 */
@@ -92,6 +94,22 @@ window.addEventListener('hashchange', controlRecipe);
 window.addEventListener('load', controlRecipe); 
 //['hashchange','load'].forEach(event => window.addEventListener(event,controlRecipe));
 
+/*
+List Controller 
+*/
+
+const controllerList = () => {
+    // create a new list 
+    if(!state.list) state.list = new List();
+
+    //add each ingredients 
+    state.recipe.ingredients.forEach(el => {
+        const item = state.list.addItems(el.count, el.unit, el.ingredient);
+        listView.renderItem(item);
+    })
+
+}
+
 // Handing recipe button click  
 elements.recipe.addEventListener('click', e => {
     if(e.target.matches('.btn-decrease, .btn-decrease *')){
@@ -104,5 +122,8 @@ elements.recipe.addEventListener('click', e => {
         // Increase btn  is clecked 
         state.recipe.updateServings('inc')
         recipeView.updateServingsIngredients(state.recipe);
+    }else if(e.target.matches('.recipe__btn__add, .recipe__btn__add *')){
+        //Shoping list 
+        controllerList();
     }
 })

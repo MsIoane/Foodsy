@@ -31,7 +31,7 @@ const createIngredients = ingredients => `
         <div class="recipe__count">${formatCount(ingredients.count)}</div>
         <div class="recipe__ingredient">
              <span class="recipe__unit">${ingredients.unit}</span>
-             ${ingredients.ingredients}
+             ${ingredients.ingredient}
          </div>
      </li>
 `
@@ -87,7 +87,7 @@ export const renderRecipe = recipe => {
                 ${ recipe.ingredients.map(el => createIngredients(el)).join('') }
                 </ul>
 
-                <button class="btn-small recipe__btn">
+                <button class="btn-small recipe__btn recipe__btn__add">
                     <svg class="search__icon">
                         <use href="img/icons.svg#icon-shopping-cart"></use>
                     </svg>
