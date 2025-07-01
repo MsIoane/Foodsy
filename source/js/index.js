@@ -110,6 +110,23 @@ const controllerList = () => {
 
 }
 
+// Handle delete and update list item events 
+elements.shopping.addEventListener('click',e => {
+    const id = e.target.closest('.shopping__item').dataset.itemid;
+
+    if (e.target.matches('.shopping__delete, .shopping__delete *')) {
+        // Delete from state 
+        state.list.deleteItem(id);
+        //Delete from UI
+        listView.deleteItem(id);
+    } else if (e.target.matches(".shopping__count-value")){
+        //Update             
+        const val = parseInt(e.target.value,10);
+        state.list.updateCount(id);  
+    }
+   
+});
+
 // Handing recipe button click  
 elements.recipe.addEventListener('click', e => {
     if(e.target.matches('.btn-decrease, .btn-decrease *')){
