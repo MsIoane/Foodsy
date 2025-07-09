@@ -1,10 +1,13 @@
 import Search from "./models/Search"
 import Recipe from "./models/Recipe"
+import List from "./models/List" 
+import Likes from "./models/Likes"
 import { elements,renderLoader,clearLoader } from "./views/base"
 import * as searchView from "./views/searchViews"
 import * as recipeView from "./views/recipeView"
 import * as listView from './views/listView'
-import List from "./models/List" 
+import * as likesView from './views/likesView'
+
 const state = {}
 window.state = state
 /*
@@ -80,7 +83,7 @@ const controlRecipe = async () => {
             state.recipe.calcServings();
             //render recipe 
             clearLoader();
-            recipeView.renderRecipe(state.recipe); 
+            recipeView.renderRecipe(state.recipe, state.likes.isLiked(id)); 
         } catch (error) {
             alert('Error recipe')  
         }
@@ -109,6 +112,57 @@ const controllerList = () => {
     })
 
 }
+
+
+
+//Like controller 
+const controllerLike = () =>{
+    if(!state.likes) state.likes = new Likes();
+
+    const currentId = state.recipe.id;
+
+    if(!state.likes.isLiked(currentId)){
+        //add like to state 
+        const newLike = state.likes.addLike(
+            currentId,
+            state.recipe.title,
+            state.recipe.author,
+            state.recipe.img,
+        );
+
+        // Toggle to the Button 
+        likesView.toggleLikeBtn(true)
+    
+        //Add like to UI 
+        likesView.renderLike(newLike);
+    }else{
+        //remove like from the state 
+        state.likes.deleteLike(currentId);
+
+        // Toggle to the Button 
+        likesView.toggleLikeBtn(false)
+        //Remove like from UI 
+        likesView.deleteLike(currentId);
+    }
+
+    // Toggle like menu 
+    likesView.toggleLikeMenu(state.likes.getNumberLikes());
+}
+
+// Restore liked recipes on page load 
+
+window.addEventListener('load', ()=>{
+    state.likes = new Likes();
+
+    //restore likes 
+    state.likes.readStorage();
+
+    // Toggle like menu 
+    likesView.toggleLikeMenu(state.likes.getNumberLikes());
+
+    //Render the existing likes 
+    state.likes.likes.forEach(like => likesView.renderLike(like));
+})
 
 // Handle delete and update list item events 
 elements.shopping.addEventListener('click',e => {
@@ -142,5 +196,8 @@ elements.recipe.addEventListener('click', e => {
     }else if(e.target.matches('.recipe__btn__add, .recipe__btn__add *')){
         //Shoping list 
         controllerList();
+    }else if(e.target.matches('.recipe__love, .recipe__love *')){
+        // Like controller 
+        controllerLike();
     }
 })
