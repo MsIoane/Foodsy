@@ -5,11 +5,11 @@ module.exports = {
     entry: ['babel-polyfill','./source/js/index.js'],
 
     output:{
-        path: path.resolve(__dirname,'distribution'),
+        path: path.resolve(__dirname,'docs'),
         filename: 'js/bundle.js'
     },
     devServer: {
-        contentBase: './distribution'
+        contentBase: './docs'
     },
     plugins: [
         new HtmlWebpackPlugin ({
