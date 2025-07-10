@@ -490,3 +490,94 @@ body {
   .shopping__item:hover .shopping__delete {
     opacity: 1;
     visibility: visible; }
+
+    /* ======================
+   RESPONSIVE DESIGN
+   ====================== */
+
+/* Tablet (768px - 1024px) */
+@media only screen and (max-width: 68.75em) {
+    .container {
+        grid-template-rows: 10rem minmax(50rem, auto);
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "head"
+            "recipe"
+            "list"
+            "shopping";
+    }
+
+    .header {
+        flex-direction: column;
+        padding: 2rem 0;
+    }
+
+    .header__logo {
+        margin: 0 0 2rem 0;
+    }
+
+    .search {
+        margin-bottom: 2rem;
+        width: 90%;
+    }
+
+    .search__field {
+        width: 100%;
+    }
+
+    .likes__field {
+        padding: 0 2rem;
+    }
+
+    .recipe__ingredient-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile (up to 767px) */
+@media only screen and (max-width: 47.9375em) {
+    html {
+        font-size: 50%;
+    }
+
+    .container {
+        margin: 0;
+        border-radius: 0;
+        min-height: 100vh;
+    }
+
+    .header {
+        padding: 1rem 0;
+    }
+
+    .recipe__fig {
+        height: 20rem;
+    }
+
+    .recipe__details {
+        flex-direction: column;
+        padding: 4rem 2rem 2rem 2rem;
+    }
+
+    .recipe__info:not(:last-child) {
+        margin-right: 0;
+        margin-bottom: 2rem;
+    }
+
+    .recipe__love {
+        margin: 2rem auto 0 auto;
+    }
+
+    .shopping {
+        padding: 2rem;
+    }
+}
+
+/* Touch target improvements */
+@media (hover: none) and (pointer: coarse) {
+    .btn, .btn-small {
+        min-width: 4.8rem;
+        min-height: 4.8rem;
+        padding: 1.5rem 3rem;
+    }
+}
